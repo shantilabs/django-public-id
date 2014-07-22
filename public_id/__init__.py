@@ -23,7 +23,7 @@ class PublicIdDbField(models.SlugField):
     _options = None
 
     def __init__(self, auto=False, *args, **kwargs):
-        auto = self.auto
+        self.auto = auto
         if auto:
             kwargs['editable'] = False
             kwargs['blank'] = True
