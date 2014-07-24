@@ -13,7 +13,7 @@ PUBLIC_ID_ALPHABET = getattr(settings, 'PUBLIC_ID_ALPHABET', (
     '0123456789'
     'abcdefghijklmnopqrstuvwxyz'
     'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    '_.-~'
+    '_-'
 ))
 
 max_base = len(PUBLIC_ID_ALPHABET)
