@@ -17,7 +17,7 @@ PUBLIC_ID_ALPHABET = getattr(settings, 'PUBLIC_ID_ALPHABET', (
 ))
 
 max_base = len(PUBLIC_ID_ALPHABET)
-real_max_length = len(baseN(2 ** 128, PUBLIC_ID_ALPHABET, max_base))
+real_max_length = len(baseN(2 ** 128, max_base, numerals=PUBLIC_ID_ALPHABET))
 PUBLIC_ID_MAX_LENGTH = getattr(settings, 'PUBLIC_ID_MAX_LENGTH', real_max_length)
 
 if PUBLIC_ID_MAX_LENGTH < real_max_length:
@@ -25,7 +25,7 @@ if PUBLIC_ID_MAX_LENGTH < real_max_length:
 
 
 def gen_code():
-    return baseN(uuid.uuid4().int, PUBLIC_ID_ALPHABET, max_base)
+    return baseN(uuid.uuid4().int, max_base, numerals=PUBLIC_ID_ALPHABET)
 
 
 class PublicIdFormField(forms.SlugField):
