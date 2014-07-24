@@ -1,4 +1,5 @@
 
+
 def baseN(num, base, numerals='0123456789abcdefghijklmnopqrstuvwxyz'):
     """
     >>> baseN(42, 10)
