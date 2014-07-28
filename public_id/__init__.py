@@ -30,7 +30,7 @@ def gen_code():
 
 class PublicIdFormField(forms.SlugField):
     def __init__(self, *args, **kwargs):
-        kwargs['min_length'] = kwargs['max_length'] = PUBLIC_ID_MAX_LENGTH
+        kwargs['max_length'] = PUBLIC_ID_MAX_LENGTH
         super(PublicIdFormField, self).__init__(*args, **kwargs)
 
 
