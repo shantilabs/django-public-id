@@ -10,18 +10,18 @@ pip install git+https://github.com/shantilabs/django-public-id#egg=public_id
 
 settings.py (optional)
 ```
+# use readable uuid by default
+# example '831ff937-cb26-4876-ab94-d6cf44ad4ec1'
+PUBLIC_ID_ALPHABET = None
 
-# all sybmols allowed in URLs
+# uuid with given alphabet
+# example: '14URANtr8RaUTzZS05HIEp'
 PUBLIC_ID_ALPHABET = (
     '0123456789'
     'abcdefghijklmnopqrstuvwxyz'
     'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     '_-.~'
 )
-
-# backward compatibility
-PUBLIC_ID_MAX_LENGTH = 36  
-
 ```
 
 Usage:

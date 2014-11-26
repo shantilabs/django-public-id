@@ -9,15 +9,14 @@ from django.db import models
 from public_id.utils import baseN
 
 
-PUBLIC_ID_ALPHABET = getattr(settings, 'PUBLIC_ID_ALPHABET', (
-    '0123456789'
-    'abcdefghijklmnopqrstuvwxyz'
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    '_-'
-))
+PUBLIC_ID_ALPHABET = getattr(settings, 'PUBLIC_ID_ALPHABET', None)
 
-max_base = len(PUBLIC_ID_ALPHABET)
-real_max_length = len(baseN(2 ** 128, max_base, numerals=PUBLIC_ID_ALPHABET))
+if PUBLIC_ID_ALPHABET:
+    real_max_length = 36
+else:
+    max_base = len(PUBLIC_ID_ALPHABET)
+    real_max_length = len(baseN(2 ** 128, max_base, numerals=PUBLIC_ID_ALPHABET))
+
 PUBLIC_ID_MAX_LENGTH = getattr(settings, 'PUBLIC_ID_MAX_LENGTH', real_max_length)
 
 if PUBLIC_ID_MAX_LENGTH < real_max_length:
@@ -25,7 +24,10 @@ if PUBLIC_ID_MAX_LENGTH < real_max_length:
 
 
 def gen_code():
-    return baseN(uuid.uuid4().int, max_base, numerals=PUBLIC_ID_ALPHABET)
+    if PUBLIC_ID_ALPHABET:
+        return str(uuid.uuid4())
+    else:
+        return baseN(uuid.uuid4().int, max_base, numerals=PUBLIC_ID_ALPHABET)
 
 
 class PublicIdFormField(forms.SlugField):
