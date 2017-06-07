@@ -49,3 +49,5 @@ ENV/
 
 # ide
 .idea
+
+db.sqlite3
