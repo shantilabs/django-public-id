@@ -10,7 +10,7 @@ from public_id.utils import base_n
 VERSION = (2, 1, 0)
 __version__ = '.'.join(map(str, VERSION))
 
-assert getattr(settings, 'PUBLIC_ID_ALPHABET'), \
+assert not hasattr(settings, 'PUBLIC_ID_ALPHABET'), \
     'PUBLIC_ID_ALPHABET is not working anymore. Please use PUBLIC_ID_CHARS instead.'
 
 PUBLIC_ID_CHARS = getattr(settings, 'PUBLIC_ID_CHARS', None)
