@@ -21,8 +21,6 @@ def base_n(num, base, chars=DEFAULT_CHARS):
     """
     if num == 0:
         return '0'
-    if num < 0:
-        return '-' + base_n((-1) * num, base, chars)
     if not 2 <= base <= len(chars):
         raise ValueError('Base must be between 2-%d' % len(chars))
     left_digits = num // base

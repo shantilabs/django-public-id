@@ -4,7 +4,7 @@ import uuid
 import mock
 from django.test import TestCase
 
-from public_id import generate_id
+from public_id import generate_id, base_n
 from test_django.testapp.models import Post, PostNoAuto
 
 TEST_UUID = uuid.UUID('249f19b0-7b54-4ad5-a0ba-92589079c0b8')
@@ -17,6 +17,14 @@ class PublicIdFieldTestCase(TestCase):
     def test_generate_id(self, uuid_func):
         self.assertEqual(generate_id(), str(TEST_UUID))
         self.assertEqual(generate_id(ALL_CHARS), TEST_ID)
+
+    def test_small_base(self):
+        chars = '123456'
+        with self.assertRaises(ValueError) as ctx:
+            base_n(123, 1, chars)
+            base_n(123, 50, chars)
+
+        self.assertTrue('Base must be between' in str(ctx.exception))
 
     @mock.patch('uuid.uuid4', return_value=TEST_UUID)
     def test_object(self, uuid_func):
