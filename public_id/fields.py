@@ -5,8 +5,9 @@ from django.db import models
 
 from .utils import base_n, generate_id
 
-assert not hasattr(settings, 'PUBLIC_ID_ALPHABET'), \
-    'PUBLIC_ID_ALPHABET is not working anymore. Please use PUBLIC_ID_CHARS instead.'
+if settings.configured:
+    assert not hasattr(settings, 'PUBLIC_ID_ALPHABET'), \
+        'PUBLIC_ID_ALPHABET is not working anymore. Please use PUBLIC_ID_CHARS instead.'
 
 
 def get_max_length(chars, default=36):
