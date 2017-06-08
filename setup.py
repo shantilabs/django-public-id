@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
+
 from setuptools import setup, find_packages
 
 version = __import__('public_id').__version__
@@ -9,7 +10,6 @@ if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
     os.system('python setup.py bdist_wheel upload')
     sys.exit()
-
 
 
 setup(
