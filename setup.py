@@ -14,6 +14,7 @@ if sys.argv[-1] == 'publish':
 
 setup(
     name='django-public-id',
+    description='Long non-incremental IDs for public links',
     version=version,
     author='Maxim Oransky',
     author_email='maxim.oransky@gmail.com',
