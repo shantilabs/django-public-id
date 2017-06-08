@@ -11,6 +11,13 @@ Install
     pip install django-public-id
 
 
+Requirements
+------------
+
+* Python 2.7, 3.4+
+* Django 1.8+
+
+
 Settings
 --------
 
