@@ -21,7 +21,7 @@ setup(
     maintainer='Dmitrii Gerasimenko',
     maintainer_email='kiddima@gmail.com',
     url='https://github.com/shantilabs/django-public-id',
-    packages=find_packages(exclude=["test_django"]),
+    packages=['public_id'],
     zip_safe=False,
     include_package_data=True,
     classifiers=[
