@@ -14,8 +14,8 @@ Install
 Requirements
 ------------
 
-* Python 2.7, 3.4+
-* Django 1.8+
+* Python 2.7, 3.5+
+* Django 1.9+
 
 
 Settings
@@ -29,7 +29,7 @@ put in `settings.py` (optional):
     # example '831ff937-cb26-4876-ab94-d6cf44ad4ec1'
     PUBLIC_ID_CHARS = None
 
-    # uuid with given chars
+    # uuid with given chars (length will be enough to store 128 bits)
     # example: '14URANtr8RaUTzZS05HIEp'
     PUBLIC_ID_CHARS = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
