@@ -9,7 +9,7 @@ from django.test import TestCase
 from django.db import IntegrityError
 
 from public_id import generate_id, base_n
-from test_django.testapp.models import Post, PostNoAuto
+from django_test_project.testapp.models import Post, PostNoAuto
 
 TEST_UUID = uuid.UUID('249f19b0-7b54-4ad5-a0ba-92589079c0b8')
 ALL_CHARS = string.digits + string.ascii_lowercase + string.ascii_uppercase

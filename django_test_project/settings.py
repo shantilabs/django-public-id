@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'public_id',
-    'test_django.testapp',
+    'django_test_project.testapp',
 ]
 
 MIDDLEWARE = [
@@ -43,7 +43,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'test_django.urls'
+ROOT_URLCONF = 'django_test_project.urls'
 
 TEMPLATES = [
     {
@@ -61,7 +61,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'test_django.wsgi.application'
+WSGI_APPLICATION = 'django_test_project.wsgi.application'
 
 
 # Database
