@@ -1,27 +1,21 @@
 import string
-import uuid
 import random
 
-DEFAULT_CHARS = string.digits + string.ascii_lowercase
+
+def generate_sequence(alphabet, length):
+    rng = random.SystemRandom()
+    alphabet_length = len(alphabet)
+
+    indexes = [rng.randrange(alphabet_length) for _ in range(length)]
+
+    return ''.join(alphabet[i] for i in indexes)
 
 
-def generate_id(chars=None, length=36):
-    if chars:
-        rng = random.SystemRandom()
-        alphabet_length = len(chars)
-
-        indexes = [rng.randrange(alphabet_length) for _ in range(length)]
-
-        return ''.join(chars[i] for i in indexes)
-    else:
-        return str(uuid.uuid4())
-
-
-def base_n(num, base, chars=DEFAULT_CHARS):
+def base_n(num, base, chars):
     """
-    >>> base_n(42, 10)
+    >>> base_n(42, 10, '0123456789')
     '42'
-    >>> base_n(42, 2)
+    >>> base_n(42, 2, '01')
     '101010'
     """
     if num == 0:

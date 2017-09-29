@@ -11,3 +11,7 @@ class Post(models.Model):
 
 class PostNoAuto(models.Model):
     public_id = PublicIdField()
+
+
+class TableWithIdOnly(models.Model):
+    public_id = PublicIdField()

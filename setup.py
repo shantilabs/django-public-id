@@ -14,7 +14,7 @@ if sys.argv[-1] == 'publish':
 
 setup(
     name='django-public-id',
-    description='Long non-incremental IDs for public links',
+    description='Long non-incremental IDs for public links. Essentially a compact form of UUID (22 bytes for 128-bit value)',
     version=version,
     author='Maxim Oransky',
     author_email='maxim.oransky@gmail.com',
@@ -22,7 +22,7 @@ setup(
     maintainer_email='kiddima@gmail.com',
     url='https://github.com/shantilabs/django-public-id',
     packages=['public_id'],
-    zip_safe=False,
+    zip_safe=True,
     include_package_data=True,
     classifiers=[
         "Programming Language :: Python",

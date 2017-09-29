@@ -1,22 +1,64 @@
+import uuid
+
 from django import forms
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.db import models
 
-from .utils import base_n, generate_id
+from .utils import generate_sequence
 
 
-def get_max_length(chars, default=36):
-    real_max_length = default
+def get_allowed_chars():
+    return getattr(settings, 'PUBLIC_ID_CHARS',
+                   getattr(settings, 'PUBLIC_ID_ALPHABET', None))  # legacy name
+
+
+def get_length():
+    return getattr(settings, 'PUBLIC_ID_LENGTH',
+                   getattr(settings, 'PUBLIC_ID_MAX_LENGTH', None))  # legacy name
+
+
+def get_minimal_length(chars):
+    """
+    Return the length of string that can store 128 bits of information
+    """
+    alphabet_length = len(set(chars))
+    assert alphabet_length >= 2
+
+    variants_threshold = 2**128
+    variants = 1
+
+    result = 0
+
+    while variants < variants_threshold:
+        variants *= alphabet_length
+        result += 1
+
+    return result
+
+
+def check_length(length, chars):
+    """
+    Check if ID with given length and alphabet can store at least 128 bits
+    """
+
+    min_length = get_minimal_length(chars)
+
+    if length < min_length:
+        raise ImproperlyConfigured('PUBLIC_ID_LENGTH must at least {}'.format(min_length))
+
+
+def generate_id(chars=None, length=None):
+    if not chars:
+        chars = get_allowed_chars()
+
+    if not length:
+        length = get_length() or get_minimal_length(chars)
+
     if chars:
-        max_base = len(chars)
-        real_max_length = len(base_n(2 ** 128, max_base, chars))
-
-    max_length = getattr(settings, 'PUBLIC_ID_MAX_LENGTH', real_max_length)
-    if max_length < real_max_length:
-        raise ImproperlyConfigured('PUBLIC_ID_MAX_LENGTH must be great {}'.format(real_max_length))
-
-    return max_length
+        return generate_sequence(chars, length)
+    else:
+        return str(uuid.uuid4())
 
 
 class PublicIdFormField(forms.SlugField):
@@ -24,12 +66,20 @@ class PublicIdFormField(forms.SlugField):
 
 
 class PublicIdField(models.SlugField):
-    @property
-    def allowed_chars(self):
-        return getattr(settings, 'PUBLIC_ID_CHARS', None)
 
     def __init__(self, auto=False, *args, **kwargs):
-        kwargs['max_length'] = get_max_length(self.allowed_chars)
+        self.allowed_chars = get_allowed_chars()
+
+        if self.allowed_chars:
+            length = get_length()
+            if length:
+                check_length(length, self.allowed_chars)
+            else:
+                length = get_minimal_length(self.allowed_chars)
+
+            kwargs['max_length'] = length
+        else:
+            kwargs['max_length'] = 36  # length of UUID
 
         self.auto = auto
         if auto:
@@ -45,7 +95,7 @@ class PublicIdField(models.SlugField):
 
     def pre_save(self, model_instance, add):
         if self.auto and not getattr(model_instance, self.attname):
-            value = generate_id(self.allowed_chars, get_max_length(self.allowed_chars))
+            value = generate_id(self.allowed_chars, self.max_length)
             setattr(model_instance, self.attname, value)
             return value
         else:
