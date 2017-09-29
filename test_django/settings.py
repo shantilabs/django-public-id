@@ -118,9 +118,6 @@ STATIC_URL = '/static/'
 PUBLIC_ID_CHARS = string.digits + string.ascii_lowercase + string.ascii_uppercase
 
 
-DJANGO_1_9 = LooseVersion(django.get_version()) > LooseVersion('1.9')
-
-if DJANGO_1_9:
-    MIGRATION_MODULES = {
-        'testapp': None,
-    }
+MIGRATION_MODULES = {
+    'testapp': None,
+}
