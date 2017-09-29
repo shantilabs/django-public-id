@@ -5,10 +5,6 @@ from django.db import models
 
 from .utils import base_n, generate_id
 
-if settings.configured:
-    assert not hasattr(settings, 'PUBLIC_ID_ALPHABET'), \
-        'PUBLIC_ID_ALPHABET is not working anymore. Please use PUBLIC_ID_CHARS instead.'
-
 
 def get_max_length(chars, default=36):
     real_max_length = default
@@ -28,8 +24,11 @@ class PublicIdFormField(forms.SlugField):
 
 
 class PublicIdField(models.SlugField):
+    @property
+    def allowed_chars(self):
+        return getattr(settings, 'PUBLIC_ID_CHARS', None)
+
     def __init__(self, auto=False, *args, **kwargs):
-        self.allowed_chars = getattr(settings, 'PUBLIC_ID_CHARS', None)
         kwargs['max_length'] = get_max_length(self.allowed_chars)
 
         self.auto = auto
@@ -46,7 +45,7 @@ class PublicIdField(models.SlugField):
 
     def pre_save(self, model_instance, add):
         if self.auto and not getattr(model_instance, self.attname):
-            value = generate_id(self.allowed_chars)
+            value = generate_id(self.allowed_chars, get_max_length(self.allowed_chars))
             setattr(model_instance, self.attname, value)
             return value
         else:

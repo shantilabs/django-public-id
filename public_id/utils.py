@@ -1,13 +1,18 @@
 import string
 import uuid
+import random
 
 DEFAULT_CHARS = string.digits + string.ascii_lowercase
 
 
-def generate_id(chars=None):
+def generate_id(chars=None, length=36):
     if chars:
-        max_base = len(chars)
-        return base_n(uuid.uuid4().int, max_base, chars)
+        rng = random.SystemRandom()
+        alphabet_length = len(chars)
+
+        indexes = [rng.randrange(alphabet_length) for _ in range(length)]
+
+        return ''.join(chars[i] for i in indexes)
     else:
         return str(uuid.uuid4())
 
